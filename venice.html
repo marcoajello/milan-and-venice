@@ -226,6 +226,43 @@ var mondayStops = [{"num": "H", "gold": true, "key": "airbnb", "name": "Airbnb",
 var tuesdayStops = [{"num": "H", "gold": true, "key": "airbnb", "name": "Airbnb", "time": "9:30 AM", "dur": "Last full day", "desc": "Leave the Airbnb. Walk to Piazza San Marco \u2014 the basilica opens at 9:30am.", "href": "#", "lat": 45.4357, "lon": 12.3326, "period": "morning"}, {"num": "1", "key": "orologio", "name": "San Marco Basilica", "time": "10:00 AM", "dur": "Free entry \u00b7 ~45 min", "desc": "8,000 square meters of luminous gold mosaics. Look for the Pala d'Oro behind the altar (extra fee), the Tetrarchs corner, and the Lost Third Column on the south facade.", "href": "https://www.basilicasanmarco.it/?lang=en", "lat": 45.4345, "lon": 12.3397, "period": "morning"}, {"num": "2", "key": "scuola", "name": "Scuola Grande di San Marco", "time": "11:30 AM", "dur": "Tue\u2013Sat \u00b7 \u20ac5", "desc": "The larger medical museum \u2014 8,000 medical tomes including Vesalius and Hippocrates. The trompe l'oeil marble facade is a masterpiece. Campo dei SS. Giovanni e Paolo.", "href": "http://www.scuolagrandesanmarco.it/", "lat": 45.4397, "lon": 12.3415, "period": "morning"}, {"num": "3", "key": "tette", "name": "Ponte delle Tette", "time": "12:30 PM", "dur": "Free walk-by", "desc": "The Bridge of Tits. In the 15th\u201316th centuries, sex workers were legally required to display themselves here to 'cure' the epidemic of sodomy.", "href": "https://www.atlasobscura.com/places/ponte-delle-tette", "lat": 45.4388, "lon": 12.3309, "period": "morning"}, {"num": "4", "key": "cicchetti", "name": "Cicchetti Crawl \u00b7 San Polo", "time": "1:30 PM", "dur": "Bar All'Arco \u2192 Do Mori \u2192 al Ravano", "desc": "Three bacari, all within a minute of each other near the Rialto. Cantina Do Mori dates to 1462. Bring cash.", "href": "#", "lat": 45.4382, "lon": 12.3349, "period": "divider"}, {"num": "5", "key": "promessi", "name": "Ai Promessi Sposi \u00b7 Dinner", "time": "7:30 PM", "dur": "CONFIRMED \u00b7 Cannaregio", "desc": "A beloved Cannaregio osteria. Great pasta, cicchetti, warm service. Calle dell'Oca 4367.", "href": "#", "lat": 45.4408, "lon": 12.336, "period": "afternoon"}];
 
 var maps = {};
+var currentDay = 'sun';
+var currentIdx = 0;
+
+function getDayData(day) {
+  if (day === 'sun') return { stops: sundayStops, listId: 'list-sun', mapId: 'map-sun', prefix: 'sun' };
+  if (day === 'mon') return { stops: mondayStops, listId: 'list-mon', mapId: 'map-mon', prefix: 'mon' };
+  return { stops: tuesdayStops, listId: 'list-tue', mapId: 'map-tue', prefix: 'tue' };
+}
+
+var currentPeriod = { sun: 'all', mon: 'all', tue: 'all' };
+
+function stopVisible(stop, period) {
+  if (period === 'all') return true;
+  if (!stop.period) return true;
+  if (stop.period === 'divider') return true;
+  return stop.period === period;
+}
+
+function buildSidebar(day) {
+  var d = getDayData(day);
+  var list = document.getElementById(d.listId);
+  list.innerHTML = '';
+  var period = currentPeriod[day];
+  d.stops.forEach(function(s, i) {
+    if (!stopVisible(s, period)) return;
+    var phUrl = photos[s.key].thumb;
+    var el = document.createElement('div');
+    el.className = 'itin-stop'; el.id = d.prefix + '-it' + i;
+    el.innerHTML = '<div class="itin-circle' + (s.gold ? ' gold' : '') + '" style="background-image:url(' + phUrl + ')"></div>'
+      + '<div><div class="itin-time">' + s.time + (s.num !== 'H' ? ' · Stop ' + s.num : '') + '</div>'
+      + '<div class="itin-name">' + s.name + '</div>'
+      + '<div class="itin-dur">' + s.dur + '</div></div>';
+    el.onclick = function() { openPopup(day, i); };
+    list.appendChild(el);
+  });
+}
+
 var mapMarkers = {};   // day -> array of overlays
 var mapPolylines = {}; // day -> polyline
 var mapsReady = false;
