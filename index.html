@@ -104,8 +104,8 @@ body { font-family: 'Lato', sans-serif; background: var(--cream); color: var(--i
 .map-thumb { position: absolute; cursor: pointer; transition: transform .15s; transform-origin: center; }
 .map-thumb:hover { transform: scale(1.12); z-index: 10; }
 .map-thumb-circle {
-  width: 56px; height: 56px; border-radius: 50%; border: 3.5px solid var(--red);
-  box-shadow: 0 4px 14px rgba(0,0,0,.4);
+  width: 72px; height: 72px; border-radius: 50%; border: 4px solid var(--red);
+  box-shadow: 0 4px 16px rgba(0,0,0,.45);
   background-size: cover; background-position: center; background-color: #F5E5C8;
   transform: translate(-50%, -50%);
   position: relative;
@@ -113,10 +113,10 @@ body { font-family: 'Lato', sans-serif; background: var(--cream); color: var(--i
 .map-thumb-circle.gold { border-color: var(--gold); }
 .map-thumb-badge {
   position: absolute; bottom: -3px; right: -10px;
-  width: 22px; height: 22px; border-radius: 50%;
-  background: var(--red); color: white; border: 2.5px solid white;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--red); color: white; border: 3px solid white;
   display: flex; align-items: center; justify-content: center;
-  font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500;
+  font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500;
 }
 .map-thumb-badge.gold { background: var(--gold); color: var(--ink); }
 .map-thumb.active .map-thumb-circle { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(184,144,46,.35), 0 4px 14px rgba(0,0,0,.4); }
@@ -153,6 +153,7 @@ body { font-family: 'Lato', sans-serif; background: var(--cream); color: var(--i
   <div class="hdr-eye">May 1 &amp; 2, 2026 · Walking Tours</div>
   <div class="hdr-title">MILAN</div>
   <div class="hdr-sub">Two Days on Foot</div>
+  <a href="venice.html" style="display:inline-block;margin-top:8px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:rgba(250,246,238,.6);text-decoration:none;border-bottom:1px solid rgba(184,144,46,.4);padding-bottom:2px;">Venice tours &rarr;</a>
   <div class="day-tabs">
     <div class="day-tab active" data-day="fri" onclick="switchDay('fri')">
       <span class="day-day">Friday Afternoon</span>Historic Walk
