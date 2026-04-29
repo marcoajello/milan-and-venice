@@ -308,8 +308,8 @@ function refreshMap(day) {
   // Fit to visible bounds
   map.fitBounds(coords, { padding: [60, 60] });
 
-  // Draw straight-line route immediately as fallback
-  var fallback = L.polyline(coords, { color: '#14405E', weight: 2, opacity: 0.4, dashArray: '4 6' }).addTo(map);
+  // Draw straight-line route immediately (visible while OSRM loads, or as fallback if it fails)
+  var fallback = L.polyline(coords, { color: '#14405E', weight: 4, opacity: 0.7, dashArray: '8 5', lineJoin: 'round' }).addTo(map);
   dayLayers[day].route = fallback;
 
   // Fetch real walking route segment by segment, then replace
